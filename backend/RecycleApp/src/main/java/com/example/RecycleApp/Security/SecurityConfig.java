@@ -34,11 +34,12 @@ public class SecurityConfig  {
         return httpSecurity
                 .csrf(customizer -> customizer.disable()) // not recommended in production todo: remove it
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers("api/user/register","/error", "api/user/login")
+                        request.requestMatchers("api/user/register","/error", "/api/user/login")
                                 .permitAll()
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
@@ -64,6 +65,8 @@ public class SecurityConfig  {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        AuthenticationManager authenticationManager = config.getAuthenticationManager();
+        System.out.println("AuthenticationManager initialized: " + authenticationManager);
         return config.getAuthenticationManager();
     }
 

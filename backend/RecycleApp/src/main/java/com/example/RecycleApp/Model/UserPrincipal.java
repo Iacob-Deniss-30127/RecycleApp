@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class UserPrincipal implements UserDetails {
 
-    private final UserEntity userEntity;
+    private UserEntity userEntity;
 
     public UserPrincipal(UserEntity userEntity) {
         this.userEntity = userEntity;
